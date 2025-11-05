@@ -80,7 +80,7 @@ Output file:
 
 ---
 
-## Recommendations & Learnings (Student Perspective)
+## Recommendations & Learnings 
 
 From working on Milestone-3, I realized how much power can come from letting users inject **functions** directly into the parsing process.  
 While Milestone-2 was simple and useful for basic replacements, this new design makes `SoupReplacer` far more reusable — it can handle attribute clean-ups, tag renames, and even content annotations automatically.  
