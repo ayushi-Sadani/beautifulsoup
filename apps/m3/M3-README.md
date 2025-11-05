@@ -67,31 +67,30 @@ Output file:
 
 ---
 
-## Comparison — Milestone 2 vs Milestone 3
+## Milestone-2 vs Milestone-3 — Comparison
 
-In **Milestone 2**, transformations were performed by string replacement before parsing.  
-This worked for simple cases but was limited and inefficient.  
-We could rename tags, but not modify attributes or apply logic while parsing.  
-Each change required two stages — text manipulation and re-parsing.
-
-**Milestone 3** introduces dynamic, parser-level transformations.  
-Each tag is intercepted during parsing and passed to `SoupReplacer` for modification.  
-This design is faster, cleaner, and more flexible — enabling complex changes like  
-conditional renames, selective attribute filtering, and chained operations.  
-M3 also integrates seamlessly into the BeautifulSoup API and ensures backward compatibility.  
-
-In summary:
-- **M2** → Static string replacement before parsing.  
-- **M3** → Live programmable transformations during parsing.  
-- **Benefit** → Greater control, one-pass execution, and reusability for custom sanitizers or preprocessors.
+| Aspect | Milestone-2 | Milestone-3 |
+|--------|--------------|-------------|
+| **Purpose** | Simple tag replacement | Dynamic transformation during parsing |
+| **Usage** | `SoupReplacer("b", "blockquote")` | `SoupReplacer(name_xformer=..., attrs_xformer=..., xformer=...)` |
+| **Flexibility** | Only replaces one tag name | Can change tag names, edit/remove attributes, and perform custom logic |
+| **Integration** | Replacement done after parsing | Replacement happens live during parsing |
+| **Scalability** | Limited to one-to-one replacement | Works with multiple tag types and complex logic |
+| **Use-case Example** | Replace `<b>` with `<blockquote>` | Remove `class` attributes or rename `<i>` → `<em>` dynamically |
 
 ---
 
-## 💡 Recommendations
-- Extend support for `lxml` and `html5lib` parsers.  
-- Implement a `ReplacerPipeline` for chaining multiple transformations.  
-- Add a verbose/debug mode to visualize tag transformation flow.  
-- Package the replacer as a standalone plugin for community use.
+## Recommendations & Learnings (Student Perspective)
+
+From working on Milestone-3, I realized how much power can come from letting users inject **functions** directly into the parsing process.  
+While Milestone-2 was simple and useful for basic replacements, this new design makes `SoupReplacer` far more reusable — it can handle attribute clean-ups, tag renames, and even content annotations automatically.  
+
+If I were to suggest improvements for future versions:
+- I’d make it easier to **chain multiple replacers** together so different transformations can be composed.
+- Adding **regex-based matching** for tag names or attributes could make it even more flexible.
+- It might also be interesting to support **replacer pipelines**, where one replacer’s output becomes another’s input.
+
+Overall, Milestone-3 felt like a big step toward turning `SoupReplacer` into something that could be merged into BeautifulSoup itself. It’s more Pythonic, customizable, and demonstrates a real example of extending open-source libraries cleanly.
 
 ---
 
