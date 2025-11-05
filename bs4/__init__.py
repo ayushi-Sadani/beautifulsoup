@@ -1168,3 +1168,30 @@ if __name__ == "__main__":
 
     soup = BeautifulSoup(sys.stdin)
     print((soup.prettify()))
+
+# -------------------------------------------------------------------
+# Milestone 3 addition — enable SoupReplacer integration
+# -------------------------------------------------------------------
+try:
+    # Import the SoupReplacer class
+    from bs4.soupreplacer import SoupReplacer
+
+    # Store the original BeautifulSoup.__init__
+    _original_bs_init = BeautifulSoup.__init__
+
+    def _patched_bs_init(self, *args, **kwargs):
+        # Capture replacer argument early and remove it before continuing
+        self._replacer = kwargs.pop("replacer", None)
+        _original_bs_init(self, *args, **kwargs)
+
+    # Patch only once
+    if not getattr(BeautifulSoup, "_soupreplacer_patched", False):
+        BeautifulSoup.__init__ = _patched_bs_init
+        BeautifulSoup._soupreplacer_patched = True
+
+    # Expose SoupReplacer for import
+    __all__.append("SoupReplacer")
+
+except Exception as e:
+    print("SoupReplacer patch failed:", e)
+# -------------------------------------------------------------------
