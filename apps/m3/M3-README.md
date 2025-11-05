@@ -18,18 +18,6 @@ This makes the replacer more powerful, extensible, and efficient.
 - **`attrs_xformer(tag)`** → modifies or filters attributes (e.g., remove `class`, add `data-*`).
 - **`xformer(tag)`** → applies arbitrary side effects directly on the tag object.
 
-Example:
-```python
-from bs4 import BeautifulSoup, SoupReplacer
-
-replacer = SoupReplacer(
-    name_xformer=lambda t: "blockquote" if t.name == "b" else t.name,
-    xformer=lambda t: t.attrs.pop("class", None)
-)
-soup = BeautifulSoup("<b class='x'>Hi</b>", "html.parser", replacer=replacer)
-print(soup.prettify())
-```
-
 ---
 
 ### 2. Parser Integration
@@ -83,7 +71,7 @@ Output file:
 
 In **Milestone 2**, transformations were performed by string replacement before parsing.  
 This worked for simple cases but was limited and inefficient.  
-You could rename tags, but not modify attributes or apply logic while parsing.  
+We could rename tags, but not modify attributes or apply logic while parsing.  
 Each change required two stages — text manipulation and re-parsing.
 
 **Milestone 3** introduces dynamic, parser-level transformations.  
