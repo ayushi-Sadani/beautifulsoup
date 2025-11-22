@@ -1070,6 +1070,17 @@ class BeautifulSoup(Tag):
         """
         self.current_data.append(data)
 
+    def __iter__(self) -> Iterator[PageElement]:
+        """Iterate over all nodes in the document tree, in document order.
+
+        This satisfies the Milestone 4 requirement that a BeautifulSoup
+        object be iterable over all of its nodes, without materializing
+        an intermediate list.
+        """
+        # Use the Tag.descendants generator from element.py
+        for node in self.descendants:
+            yield node
+
     def decode(
         self,
         indent_level: Optional[int] = None,
